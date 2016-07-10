@@ -58,7 +58,7 @@ one behind Figure 3A in Ziegler et al. (2015).
 ### Run simulation
 
 Invoking `$ ./sim_frey`, or `$ mpirun -n 2 sim_frey` for example,
-will run generate an input raster and run the simulation of a weak tetanus (WTET) with a total
+will generate an input raster and run the simulation of a weak tetanus (WTET) with a total
 time of one hour. For other options run a simulation with the flag `-h` or `--help`.
 
 ### Plot the result
