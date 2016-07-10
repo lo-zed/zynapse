@@ -1,0 +1,11 @@
+# Lines starting with '#' are considered comments.
+# Ignore objects and archives.
+*.[oa]
+*.l[oa]
+*/.libs
+
+# Ignore stuff in the build dir
+build/*
+
+# Ignore emacs backups
+*~
