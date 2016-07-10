@@ -196,7 +196,7 @@ namespace auryn {
                 void set_tau(AurynFloat level, NeuronID z);
 
                 AurynFloat get_g(NeuronID i);
-                AurynFloat get_protein();
+                AurynFloat get_prp();
                 void g_stats(AurynDouble &mean, AurynDouble &std);
         };
 
