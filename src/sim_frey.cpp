@@ -27,7 +27,6 @@
 #include <sys/time.h>
 
 namespace po = boost::program_options;
-namespace mpi = boost::mpi;
 
 using namespace auryn;
 
@@ -275,20 +274,11 @@ int main(int ac, char* av[])
                 std::cerr << "Exception of unknown type!\n";
         }
 
-        // BEGIN Global stuff
-        mpi::environment env(ac, av);
-        mpi::communicator world;
-        communicator = &world;
-
-        sprintf(strbuf, "%s/%s.%d.log", dir.c_str(), file_prefix, world.rank());
-        std::string logfile = strbuf;
+		auryn_init(ac, av);
 
         LogMessageType log_level_file = PROGRESS;
         if ( verbose ) log_level_file = EVERYTHING;
-        logger = new Logger(logfile,world.rank(),PROGRESS,log_level_file);
-
-        sys = new System(&world);
-        // END Global stuff
+		logger->set_logfile_loglevel(log_level_file);
 
         msg =  "Generating raster ...";
         logger->msg(msg,PROGRESS,true);
@@ -299,7 +289,7 @@ int main(int ac, char* av[])
         msg =  "Setting up neuron groups ...";
         logger->msg(msg,PROGRESS,true);
 
-        FileInputGroup * tetanus = new FileInputGroup(n_in, strbuf);
+        FileInputGroup * tetanus = new FileInputGroup(n_in, strbuf, false);
 
         PRPGroup * neuron = new PRPGroup(n_out);
 
@@ -315,33 +305,33 @@ int main(int ac, char* av[])
         msg = "Setting up monitors ...";
         logger->msg(msg,PROGRESS,true);
 
-        sprintf(strbuf, "%s/%s_%s_x.%d.wgs", dir.c_str(), file_prefix, protocol.c_str(), world.rank());
+        sprintf(strbuf, "%s/%s_%s_x.%d.wgs", dir.c_str(), file_prefix, protocol.c_str(), sys->mpi_rank());
         WeightStatsMonitor * wsmon_x = \
                 new WeightStatsMonitor(con, strbuf, monitor_time, 0);
-        sprintf(strbuf, "%s/%s_%s_y.%d.wgs", dir.c_str(), file_prefix, protocol.c_str(), world.rank());
+        sprintf(strbuf, "%s/%s_%s_y.%d.wgs", dir.c_str(), file_prefix, protocol.c_str(), sys->mpi_rank());
         WeightStatsMonitor * wsmon_y = \
                 new WeightStatsMonitor(con, strbuf, monitor_time, 1);
-        sprintf(strbuf, "%s/%s_%s_z.%d.wgs", dir.c_str(), file_prefix, protocol.c_str(), world.rank());
+        sprintf(strbuf, "%s/%s_%s_z.%d.wgs", dir.c_str(), file_prefix, protocol.c_str(), sys->mpi_rank());
         WeightStatsMonitor * wsmon_z = \
                 new WeightStatsMonitor(con, strbuf, monitor_time, 2);
 
         // to count states (directly on data files): if x_i>0 s+=2^i
         if (n_rec>0) {
-                sprintf(strbuf, "%s/%s_%s_x.%d.syn", dir.c_str(), file_prefix, protocol.c_str(), world.rank());
+                sprintf(strbuf, "%s/%s_%s_x.%d.syn", dir.c_str(), file_prefix, protocol.c_str(), sys->mpi_rank());
                 WeightMonitor * xmon =                                  \
                         new WeightMonitor(con, 0, n_rec, strbuf, monitor_time, DATARANGE, 0);
-                sprintf(strbuf, "%s/%s_%s_y.%d.syn", dir.c_str(), file_prefix, protocol.c_str(), world.rank());
+                sprintf(strbuf, "%s/%s_%s_y.%d.syn", dir.c_str(), file_prefix, protocol.c_str(), sys->mpi_rank());
                 WeightMonitor * ymon =                                  \
                         new WeightMonitor(con, 0, n_rec, strbuf, monitor_time, DATARANGE, 1);
-                sprintf(strbuf, "%s/%s_%s_z.%d.syn", dir.c_str(), file_prefix, protocol.c_str(), world.rank());
+                sprintf(strbuf, "%s/%s_%s_z.%d.syn", dir.c_str(), file_prefix, protocol.c_str(), sys->mpi_rank());
                 WeightMonitor * zmon =                                  \
                         new WeightMonitor(con, 0, n_rec, strbuf, monitor_time, DATARANGE, 2);
         }
 
-        sprintf(strbuf, "%s/%s_%s.%d.ras", dir.c_str(), file_prefix, protocol.c_str(), world.rank());
+        sprintf(strbuf, "%s/%s_%s.%d.ras", dir.c_str(), file_prefix, protocol.c_str(), sys->mpi_rank());
         SpikeMonitor * smon = new SpikeMonitor(neuron, strbuf);
 
-        sprintf(strbuf, "%s/%s_%s.%d.zyn", dir.c_str(), file_prefix, protocol.c_str(), world.rank());
+        sprintf(strbuf, "%s/%s_%s.%d.zyn", dir.c_str(), file_prefix, protocol.c_str(), sys->mpi_rank());
         ZynapseMonitor * zmon = new ZynapseMonitor(con, strbuf, monitor_time);
 
         msg = "Simulating ...";
@@ -367,12 +357,11 @@ int main(int ac, char* av[])
         if (!sys->run(remaining, false) )
                 errcode = 1;
 
-        msg = "Freeing ...";
-        logger->msg(msg,PROGRESS,true);
-
-        delete sys;
-
         if (errcode)
-                env.abort(errcode);
+			auryn_abort(errcode);
+
+        msg = "Freeing ...";
+		auryn_free();
+
         return errcode;
 }

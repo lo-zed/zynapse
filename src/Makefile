@@ -12,7 +12,7 @@ AURYNLIB=$(AURYNPATH)/build/release/src
 # The following should not require updating in most cases 
 CC = mpic++
 CFLAGS=-ansi -pipe -O3 -march=native -ffast-math -pedantic -I/usr/include -I$(AURYNINC)
-LDFLAGS=-lboost_program_options -lboost_mpi -lboost_serialization -L$(AURYNLIB) -lauryn
+LDFLAGS=$(AURYNLIB)/libauryn.a -lboost_filesystem -lboost_system -lboost_program_options -lboost_mpi -lboost_serialization 
 
 SIMFILES=sim_frey
 OBJFILES=ZynapseConnection.o ZynapseMonitor.o PRPGroup.o

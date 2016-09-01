@@ -54,9 +54,9 @@ void PRPGroup::init()
         tau_prp_up = 1.;
         tau_prp_down = 7200.;
 
-        timestep_down = 60/dt;
+        timestep_down = 60/auryn_timestep;
 
-        scale_prp_up = exp(-dt/tau_prp_up);
+        scale_prp_up = exp(-auryn_timestep/tau_prp_up);
         scale_prp_down = exp(-60./tau_prp_down);
 
         dopamine = false;

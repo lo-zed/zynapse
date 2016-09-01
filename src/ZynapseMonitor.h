@@ -26,10 +26,10 @@
 #ifndef ZYNAPSEMONITOR_H_
 #define ZYNAPSEMONITOR_H_
 
-#include "auryn_definitions.h"
-#include "AurynVector.h"
-#include "Monitor.h"
-#include "System.h"
+#include "auryn/auryn_definitions.h"
+#include "auryn/AurynVector.h"
+#include "auryn/Monitor.h"
+#include "auryn/System.h"
 #include "ZynapseConnection.h"
 #include <fstream>
 #include <iomanip>
