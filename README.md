@@ -24,8 +24,7 @@ PRPGroup
 ## Running an example
 
 To run slice experiment simulation as described in Figure 3A of Ziegler et al. (2015),
-you need to install and compile Auryn v0.8.0-dev (most likely it will work with more
-recent commits of the develop branch of Auryn too). 
+you need to install and compile Auryn v0.8.0-beta3. 
 In the following we will assume that you have git installed and up and running
 on your system. Moreover, you have all dependencies to compile Auryn installed.
 
@@ -36,14 +35,14 @@ In essence do the following:
 $ cd ~
 $ git clone https://github.com/fzenke/auryn.git
 $ cd auryn
-$ git checkout -b version0.8 v0.8.0-dev
+$ git checkout -b v0.8.0-beta3 v0.8.0-beta3
 $ cd build/release
 $ make
 ```
 
 Should you have difficulties compiling the simulator please refer to the
 installation and troubleshooting section in the manual (www.fzenke.net/auryn).
-If you had auryn already installed and have problems checking out version 0.8
+If you had auryn already installed and have problems checking out version 0.8.0 beta3
 run `git fetch --tags`.
 
 ### Compile simulation classes and programs
