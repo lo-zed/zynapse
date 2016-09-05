@@ -99,7 +99,7 @@ void ZynapseConnection::init(AurynFloat wo, AurynFloat k_w, AurynFloat a_m, Aury
         die = new boost::variate_generator<boost::mt19937&, boost::normal_distribution<> >
                 (zynapse_connection_gen, *dist);
         if (!has_been_seeded)
-                seed(12345*auryn::communicator->rank());
+                seed(12345*sys->mpi_rank());
 
         set_min_weight(wo);
         set_max_weight(k_w*wo);
@@ -120,7 +120,7 @@ void ZynapseConnection::init(AurynFloat wo, AurynFloat k_w, AurynFloat a_m, Aury
         coeff[2] = wo*wo*(1+k_w)*(1+k_w)/2 + wo*wo*k_w;
         coeff[3] = 3*wo*(1+k_w)/2;
 
-        timestep_synapses = TUPD/dt;
+        timestep_synapses = TUPD/auryn_timestep;
 
         eta = wo*(k_w-1)*sqrt(ETAXYZ*TUPD)/2;
 
@@ -262,7 +262,7 @@ void ZynapseConnection::dw_pre(const NeuronID * post, AurynWeight * weight)
         if (dw>1) dw = 1;
         if (reset<0) {
                 AurynDouble gxy = tr_gxy->get(data_ind);
-                tr_gxy->add(data_ind, dw*(1.-gxy));
+                tr_gxy->add_specific(data_ind, dw*(1.-gxy));
         }
         dw *= wmin-*weight;
         *weight += dw;
@@ -281,7 +281,7 @@ void ZynapseConnection::dw_post(const NeuronID * pre, NeuronID post, AurynWeight
         if (dw>1) dw = 1;
         if (reset<0) {
                 AurynDouble gxy = tr_gxy->get(data_ind);
-                tr_gxy->add(data_ind, dw*(1.-gxy));
+                tr_gxy->add_specific(data_ind, dw*(1.-gxy));
         }
         dw *= wmax-*weight;
         *weight += dw;

@@ -29,7 +29,7 @@ using namespace auryn;
 
 ZynapseMonitor::ZynapseMonitor(ZynapseConnection * source, std::string filename, AurynDouble binsize) : Monitor(filename)
 {
-        init(source,filename,binsize/dt);
+        init(source,filename,binsize/auryn_timestep);
 }
 
 ZynapseMonitor::~ZynapseMonitor()
@@ -40,7 +40,7 @@ void ZynapseMonitor::init(ZynapseConnection * source, std::string filename,Auryn
 {
         if ( !source->get_destination()->evolve_locally() ) return;
 
-        auryn::sys->register_monitor(this);
+        auryn::sys->register_device(this);
 
         src = source;
         ssize = stepsize;

@@ -26,8 +26,9 @@
 #ifndef ZYNAPSECONNECTION_H_
 #define ZYNAPSECONNECTION_H_
 
-#include "auryn_definitions.h"
-#include "DuplexConnection.h"
+#include "auryn/auryn_definitions.h"
+#include "auryn/DuplexConnection.h"
+#include "auryn/LinearTrace.h"
 
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/normal_distribution.hpp>

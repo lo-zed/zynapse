@@ -26,8 +26,8 @@
 #ifndef PRPGROUP_H_
 #define PRPGROUP_H_
 
-#include "auryn_definitions.h"
-#include "AIFGroup.h"
+#include "auryn/auryn_definitions.h"
+#include "auryn/AIFGroup.h"
 
 namespace auryn {
 
