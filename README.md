@@ -36,7 +36,7 @@ In essence do the following:
 $ cd ~
 $ git clone https://github.com/fzenke/auryn.git
 $ cd auryn
-$ git checkout -b version0.8 v0.8.0-dev
+$ git checkout -b version0.8 v0.8.0-beta3
 $ cd build/release
 $ make
 ```
