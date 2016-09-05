@@ -90,7 +90,8 @@ namespace auryn {
 
                 AurynFloat euler[3], coeff[4], eta, ap, am;
                 int timestep_synapses;
-
+		AurynState * prp;
+		
                 void init(AurynFloat wo, AurynFloat k_w, AurynFloat a_m,
                           AurynFloat a_p);
                 void init_shortcuts();

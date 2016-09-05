@@ -128,6 +128,8 @@ void ZynapseConnection::init(AurynFloat wo, AurynFloat k_w, AurynFloat a_m, Aury
 
         eta = wo*(k_w-1)*sqrt(ETAXYZ*TUPD)/2;
 
+	prp = dst->get_state_variable("prp");
+	
         // Set number of synaptic states
         w->set_num_synapse_states(3);
 
@@ -175,7 +177,6 @@ void ZynapseConnection::integrate()
                 *y = w->get_state_begin(1),
                 *z = w->get_state_begin(2);
 
-        AurynWeight prot = *dst->get_state_variable("prp");
         for (AurynLong i = 0 ; i < w->get_nonzero() ; ++i ) {
                 AurynWeight xyi = x[i] - y[i],
                         yzi = y[i] - z[i];
@@ -187,10 +188,10 @@ void ZynapseConnection::integrate()
                                   ) + eta*(*die)();
                 y[i] += euler[1]*(coeff[0]*(coeff[1]-y[i]*(coeff[2]-y[i]*(coeff[3]-y[i]) ) ) +
                                   TILT*gxy*xyi -
-                                  META_ZY*(1-prot)*yzi
+                                  META_ZY*(1-*prp)*yzi
                                   ) + eta*(*die)();
                 z[i] += euler[2]*(coeff[0]*(coeff[1]-z[i]*(coeff[2]-z[i]*(coeff[3]-z[i]) ) ) +
-                                  TILT*prot*yzi
+                                  TILT*(*prp)*yzi
                                   ) + eta*(*die)();
         }
 }
@@ -368,7 +369,7 @@ AurynFloat ZynapseConnection::get_g(NeuronID i)
 
 AurynFloat ZynapseConnection::get_prp()
 {
-        return *dst->get_state_variable("prp");
+        return *prp;
 }
 
 void ZynapseConnection::g_stats(AurynDouble &mean, AurynDouble &std)
