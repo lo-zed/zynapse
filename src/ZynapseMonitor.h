@@ -37,7 +37,7 @@
 namespace auryn {
 
         /*! \brief Records protein level of target as well as mean and standard deviation
-	 * of g_trace of ZynapseConnection in predefined intervals.
+         * of g_trace of ZynapseConnection in predefined intervals.
          */
         class ZynapseMonitor : protected Monitor
         {

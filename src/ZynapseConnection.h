@@ -21,6 +21,11 @@
  * Zenke, F. and Gerstner, W., 2014. Limits to high-speed simulations
  * of spiking neural networks using general-purpose computers.
  * Front Neuroinform 8, 76. doi: 10.3389/fninf.2014.00076
+ *
+ * If you are using the Zynapse Connection for your work please cite:
+ * Ziegler, L., Zenke, F., Kastner, D.B. and Gerstner, W., 2015.
+ * Synaptic consolidation: from synapses to behavioral modeling.
+ * JNeurosci 35.3
  */
 
 #ifndef ZYNAPSECONNECTION_H_
@@ -121,7 +126,7 @@ namespace auryn {
                 /*! This performs plasticity updates following postsynaptic spikes.
                  * To that end the postsynaptic spikes have to be communicated backward
                  * to the corresponding synapses connecting to presynaptic neurons. This
-                 * is why this function is called propagate_backward ... it is remeniscent
+                 * is why this function is called propagate_backward ... it is reminiscent
                  * of a back-propagating action potential. */
                 void propagate_backward();
 
@@ -184,10 +189,20 @@ namespace auryn {
                  */
                 bool stdp_active;
 
+                /*! Randomly potentiates synapses by setting all three states to wmax.
+                 *
+                 * @param z_up the rate #high synapses / #low synapses.
+                 * @param reset whether to reset before potentiating.
+                 */
                 void random_data_potentiation(AurynFloat z_up, bool reset=false);
 
                 void seed(int s);
 
+                /*! Sets the plasticity constants.
+                 *
+                 * @param a_m depression.
+                 * @param a_p potentiation.
+                 */
                 void set_plast_constants(AurynFloat a_m, AurynFloat a_p);
                 void potentiate(NeuronID i);
                 void potentiate();

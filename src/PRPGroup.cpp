@@ -51,9 +51,12 @@ void PRPGroup::init()
         prp = get_state_variable("prp");
         *prp = 0;
 
+        /* PRP time constants:
+         * 1 second build-up, 2 hours decay */
         tau_prp_up = 1.;
         tau_prp_down = 7200.;
 
+        /* during decay updates PRP only every minute */
         timestep_down = 60/auryn_timestep;
 
         scale_prp_up = exp(-auryn_timestep/tau_prp_up);

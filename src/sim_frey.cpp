@@ -274,11 +274,11 @@ int main(int ac, char* av[])
                 std::cerr << "Exception of unknown type!\n";
         }
 
-		auryn_init(ac, av);
+        auryn_init(ac, av);
 
         LogMessageType log_level_file = PROGRESS;
         if ( verbose ) log_level_file = EVERYTHING;
-		logger->set_logfile_loglevel(log_level_file);
+        logger->set_logfile_loglevel(log_level_file);
 
         msg =  "Generating raster ...";
         logger->msg(msg,PROGRESS,true);
@@ -358,10 +358,10 @@ int main(int ac, char* av[])
                 errcode = 1;
 
         if (errcode)
-			auryn_abort(errcode);
+                auryn_abort(errcode);
 
         msg = "Freeing ...";
-		auryn_free();
+        auryn_free();
 
         return errcode;
 }

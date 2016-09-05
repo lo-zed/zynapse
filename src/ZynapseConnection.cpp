@@ -115,6 +115,10 @@ void ZynapseConnection::init(AurynFloat wo, AurynFloat k_w, AurynFloat a_m, Aury
         euler[1] = TUPD/TAUY;
         euler[2] = TUPD/TAUZ;
 
+        /* coefficients for the evolution of state variables,
+         * calculated from a*f((x-b)/a), where
+         * a = wo*(k-1)/2 , b = wo*(k+1)/2
+         * and f(x) = -x^3 + x = -x*(x+1)*(x-1) */
         coeff[0] = 4/wo/wo/(k_w-1)/(k_w-1);
         coeff[1] = wo*wo*wo*k_w*(1+k_w)/2;
         coeff[2] = wo*wo*(1+k_w)*(1+k_w)/2 + wo*wo*k_w;
